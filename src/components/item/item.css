@@ -1,0 +1,15 @@
+.item {
+  width: 250px;
+  height: 450px;
+  background-color: rgb(247, 248, 248);
+  box-shadow: 5px 5px 10px #8888;
+}
+.itemName {
+}
+.itemImage img {
+  width: 200px;
+  height: 300px;
+  object-fit: contain;
+}
+.itemPrice {
+}

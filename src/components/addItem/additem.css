@@ -1,0 +1,20 @@
+.additem {
+  width: 250px;
+  height: 300px;
+  background-color: rgb(30, 214, 214) !important;
+  box-shadow: 5px 5px 10px #8888;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+form {
+  width: 100%;
+}
+form input {
+  width: 100%;
+  padding: 5px 15px;
+}
+Button {
+  width: 100%;
+}

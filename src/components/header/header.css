@@ -1,0 +1,24 @@
+.header {
+  padding: 10px;
+  display: flex;
+  background-color: cadetblue;
+  color: white;
+  justify-content: space-around;
+  align-items: center;
+}
+.logo {
+  font-size: 30px;
+  font-weight: 900;
+}
+.searchbar input {
+  padding: 5px 10px;
+}
+
+.nav ul {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+.nav ul li {
+  padding: 20px;
+}

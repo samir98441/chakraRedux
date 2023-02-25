@@ -1,20 +1,22 @@
 import { nanoid } from "nanoid";
-import { useDataContext } from "../../context/ContextProvider";
+
 import "./additem.css";
 import { Button } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+import { useDispatch } from "react-redux";
+import { addProducts } from "../../store/slices/productsSlice";
+
 const AddItem = () => {
-  const { handelAddItem, handleUpdate } = useDataContext();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
       PId: "",
-      UpdateToggle: false,
       PName: "",
       Price: "",
-      PImageUrl: "",
+      formToggle: false,
     },
     validationSchema: Yup.object().shape({
       PName: Yup.string("Must be string")
@@ -31,7 +33,7 @@ const AddItem = () => {
       Price:${values.Price}`);
 
       const tempData = { ...values, PId: nanoid() };
-      handelAddItem(tempData);
+      dispatch(addProducts(tempData));
     },
   });
 
@@ -54,7 +56,7 @@ const AddItem = () => {
         <hr />
 
         <input
-          type="text"
+          type="number"
           name="Price"
           value={formik.values.Price}
           placeholder="price"
@@ -78,7 +80,7 @@ const AddItem = () => {
         /> */}
 
         <Button type="submit" colorScheme="blue">
-          Submit
+          Add Item
         </Button>
       </form>
     </div>

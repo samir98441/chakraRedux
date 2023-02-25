@@ -1,7 +1,7 @@
 import React, { lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import { ProtectedRoute } from "./components/protectedRoutes";
+import { ProtectedRoute } from "./components/protectedRoutes/protectedRoutes";
 import { Spinner } from "@chakra-ui/react";
 import loadable from "@loadable/component";
 

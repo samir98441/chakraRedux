@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useDataContext } from "../../context/ContextProvider";
 
 import { Box, Flex } from "@chakra-ui/react";
 import CartItem from "../../components/cartItem/CartItem";
+import { useDispatch, useSelector } from "react-redux";
+import { loadCart } from "../../store/slices/cartSlice";
 
 const CartPage = () => {
-  const { cart } = useDataContext();
+  const cart = useSelector((state) => state.CartReducer.cart);
+
   const [total, setTotal] = useState();
+  const dispatch = useDispatch();
+  let t = 0;
 
   useEffect(() => {
-    let t = 0;
     cart.forEach((item) => {
-      t = t + item.Price * item.quantity;
+      t += item.Price * item.quantity;
     });
+
     setTotal(t);
   }, [cart]);
+
+  useEffect(() => {
+    dispatch(loadCart);
+  }, []);
 
   return (
     <Flex>

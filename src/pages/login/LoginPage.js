@@ -1,21 +1,30 @@
 import { Box, Button } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
+
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { useLoginContext } from "../../context/LoginContext";
 import "./login.css";
 
+import { useSelector, useDispatch } from "react-redux";
+import { loginValidate } from "../../store/slices/loginSlice";
+import { loadProducts } from "../../store/slices/productsSlice";
+
 const LoginPage = () => {
-  const { handelLoginValidation, isLoggedIn } = useLoginContext();
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
-  console.log("yaha kina aatyo");
   useEffect(() => {
     if (isLoggedIn) {
       console.log("navigate", isLoggedIn);
       navigate("/home");
     }
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    dispatch(loadProducts());
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -33,7 +42,7 @@ const LoginPage = () => {
       alert(`Items added
        email:${values.email}
       password:${values.password}`);
-      handelLoginValidation(values);
+      dispatch(loginValidate(values));
     },
   });
 

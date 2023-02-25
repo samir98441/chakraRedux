@@ -3,9 +3,20 @@ import { Flex } from "@chakra-ui/react";
 import AddItem from "../addItem/AddItem";
 import "./main.css";
 import { useDataContext } from "../../context/ContextProvider";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const Main = () => {
-  const { products, searchedItem, searchValue } = useDataContext();
+  const products = useSelector((state) => state.ProductsReducer.products);
+  const state = useSelector((state) => state.SearchReducer);
+  const { searchValue, searchedItem } = state;
+
+  useEffect(() => {
+    if (products.length) {
+      localStorage.setItem("products", JSON.stringify(products));
+    }
+  }, [products]);
+
   return (
     <div className="main">
       <Flex
@@ -15,7 +26,6 @@ const Main = () => {
         justifyContent="space-around"
         gap="30px"
       >
-        {console.log("aaa", products)}
         {searchValue === ""
           ? products.map((item) => {
               return (
@@ -24,7 +34,7 @@ const Main = () => {
                   PId={item.PId}
                   PName={item.PName}
                   Price={item.Price}
-                  UpdateToggle={item.UpdateToggle}
+                  formToggle={item.formToggle}
                 />
               );
             })
@@ -33,9 +43,9 @@ const Main = () => {
                 <Item
                   key={item.PId}
                   PId={item.PId}
-                  UpdateToggle={item.UpdateToggle}
                   PName={item.PName}
                   Price={item.Price}
+                  formToggle={item.formToggle}
                 />
               );
             })}

@@ -1,10 +1,11 @@
 import React from "react";
 import { Box, Button, Flex, Image, Text } from "@chakra-ui/react";
 
-import { useDataContext } from "../../context/ContextProvider";
+import { addToCart, deleteFromCart } from "../../store/slices/cartSlice";
+import { useDispatch } from "react-redux";
 
 const CartItem = ({ PId, PName, Price, quantity }) => {
-  const { handleAddCart, handleReduceCart } = useDataContext();
+  const dispatch = useDispatch();
 
   return (
     <Flex justifyContent="space-around">
@@ -26,9 +27,11 @@ const CartItem = ({ PId, PName, Price, quantity }) => {
       <Box>
         <Box>Quantity</Box>
         <Flex alignItems="center" gap="5px">
-          <Button onClick={() => handleAddCart(PId)}>+</Button>
+          <Button onClick={() => dispatch(addToCart({ PId, PName, Price }))}>
+            +
+          </Button>
           {quantity}
-          <Button onClick={() => handleReduceCart(PId)}>-</Button>
+          <Button onClick={() => dispatch(deleteFromCart(PId))}>-</Button>
         </Flex>
       </Box>
       <Box>

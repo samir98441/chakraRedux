@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import "./item.css";
 import { Text, Image, Box, Button, Input } from "@chakra-ui/react";
-import { useDataContext } from "../../context/ContextProvider";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../store/slices/cartSlice";
+import {
+  updateFormToggle,
+  updateProducts,
+  removeItem,
+} from "../../store/slices/productsSlice";
 
-const Item = ({ PId, PName, Price, UpdateToggle }) => {
-  const { handleRemove, handleUpdate, handleToggle, handleAddCart } =
-    useDataContext();
-  const [newName, setNewName] = useState("");
-  const [newPrice, setNewPrice] = useState("");
+const Item = ({ PId, PName, Price, formToggle }) => {
+  const [newName, setNewName] = useState();
+  const [newPrice, setNewPrice] = useState();
+
+  const dispatch = useDispatch();
+
   let data;
 
   const handleName = (e) => {
@@ -17,14 +24,20 @@ const Item = ({ PId, PName, Price, UpdateToggle }) => {
   const handlePrice = (e) => {
     setNewPrice(e.target.value);
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    data = { PId: PId, PName: newName, Price: newPrice };
+    data = { PId, PName: newName, Price: newPrice };
     console.log("submit", data);
-    handleUpdate(data);
-    handleToggle(PId);
+    dispatch(updateProducts(data));
+    dispatch(updateFormToggle(PId));
+  };
+  const handleAddToCart = () => {
+    const tempData = {
+      PId,
+      PName,
+      Price,
+    };
+    dispatch(addToCart(tempData));
   };
   return (
     <div className="item">
@@ -40,10 +53,14 @@ const Item = ({ PId, PName, Price, UpdateToggle }) => {
       <div className="itemPrice">
         <Text fontSize="20px">Rs.{Price}</Text>
       </div>
-      <Button colorScheme="red" onClick={() => handleRemove(PId)}>
+      <Button colorScheme="red" onClick={() => dispatch(removeItem(PId))}>
         Remove
       </Button>
-      <Button mt="10px" colorScheme="blue" onClick={() => handleToggle(PId)}>
+      <Button
+        mt="10px"
+        colorScheme="blue"
+        onClick={() => dispatch(updateFormToggle(PId))}
+      >
         Update
       </Button>
 
@@ -51,11 +68,11 @@ const Item = ({ PId, PName, Price, UpdateToggle }) => {
         mt="10px"
         type="submit"
         colorScheme="green"
-        onClick={() => handleAddCart(PId)}
+        onClick={handleAddToCart}
       >
         Add to Cart
       </Button>
-      <Box display={UpdateToggle ? "block" : "none"}>
+      <Box display={formToggle ? "block" : "none"}>
         <form onSubmit={handleSubmit}>
           <input
             type="text"

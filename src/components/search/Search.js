@@ -6,15 +6,25 @@ import {
   InputLeftElement,
 } from "@chakra-ui/react";
 import React from "react";
-import { useDataContext } from "../../context/ContextProvider";
+
+import { useSelector, useDispatch } from "react-redux";
+import {
+  updateSearchValue,
+  updateSearchItem,
+} from "../../store/slices/searchSlice";
 
 const Search = () => {
-  const { handleSearchItem, searchValue } = useDataContext();
+  const dispatch = useDispatch();
+  const searchValue = useSelector((state) => state.SearchReducer.searchValue);
+  const products = useSelector((state) => state.ProductsReducer.products);
 
   const onChangeHandler = (e) => {
     const newValue = e.target.value;
-    handleSearchItem(newValue);
+
+    dispatch(updateSearchValue(newValue));
+    dispatch(updateSearchItem(products));
   };
+
   return (
     <div>
       <InputGroup variant="outline">

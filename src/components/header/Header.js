@@ -3,14 +3,17 @@ import "./header.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Avatar, Button } from "@chakra-ui/react";
 
-import { useLoginContext } from "../../context/LoginContext";
 import Search from "../search/Search";
 
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/slices/loginSlice";
+
 const Header = () => {
-  const { handleLogout } = useLoginContext();
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
   const handleHomeClick = () => {
-    navigate("/home");
+    navigate("/user");
   };
   return (
     <div className="header">
@@ -23,14 +26,12 @@ const Header = () => {
       <div className="nav">
         <ul>
           <li>
-            {/* <Link to="/user"> */}
             <Avatar
               name="Sameer kayastha"
               src="https://bit.ly/broken-link"
               fontSize="1rem"
               onClick={handleHomeClick}
             />
-            {/* </Link> */}
           </li>
           <li>
             <Link to="/about">About Us</Link>
@@ -42,7 +43,7 @@ const Header = () => {
             <Link to="/cart">Cart</Link>
           </li>
           <li>
-            <Button colorScheme="red" onClick={handleLogout}>
+            <Button colorScheme="red" onClick={() => dispatch(logout())}>
               Logout
             </Button>
           </li>

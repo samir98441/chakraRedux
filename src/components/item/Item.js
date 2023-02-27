@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import "./item.css";
-import { Text, Image, Box, Button, Input } from "@chakra-ui/react";
+import { Text, Image, Box, Button, Input, Flex } from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../store/slices/cartSlice";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import DriveFileRenameOutlineRoundedIcon from "@mui/icons-material/DriveFileRenameOutlineRounded";
+
 import {
   updateFormToggle,
   updateProducts,
   removeItem,
 } from "../../store/slices/productsSlice";
+import { EditIcon } from "@chakra-ui/icons";
 
 const Item = ({ PId, PName, Price, formToggle }) => {
   const [newName, setNewName] = useState();
@@ -49,30 +54,32 @@ const Item = ({ PId, PName, Price, formToggle }) => {
           alt="Dan Abramov"
         />
       </Box>
-      <div className="itemName">{PName}</div>
-      <div className="itemPrice">
-        <Text fontSize="20px">Rs.{Price}</Text>
-      </div>
-      <Button colorScheme="red" onClick={() => dispatch(removeItem(PId))}>
-        Remove
-      </Button>
-      <Button
-        mt="10px"
-        colorScheme="blue"
-        onClick={() => dispatch(updateFormToggle(PId))}
-      >
-        Update
-      </Button>
+      <Box padding="20px">
+        <div className="itemName">{PName}</div>
+        <div className="itemPrice">
+          <Text fontSize="20px">Rs.{Price}</Text>
+        </div>
+        <Flex w="100%" justifyContent="space-around">
+          <AddShoppingCartIcon
+            style={{ color: "blue" }}
+            onClick={handleAddToCart}
+          />
+          <DriveFileRenameOutlineRoundedIcon
+            style={{ color: "green" }}
+            onClick={() => dispatch(updateFormToggle(PId))}
+          />
+          <DeleteOutlineIcon
+            style={{ color: "red" }}
+            onClick={() => dispatch(removeItem(PId))}
+          />
+        </Flex>
+      </Box>
 
-      <Button
-        mt="10px"
-        type="submit"
-        colorScheme="green"
-        onClick={handleAddToCart}
+      <Box
+        display={formToggle ? "block" : "none"}
+        style={{ position: "absolute" }}
+        w="250px"
       >
-        Add to Cart
-      </Button>
-      <Box display={formToggle ? "block" : "none"}>
         <form onSubmit={handleSubmit}>
           <input
             type="text"

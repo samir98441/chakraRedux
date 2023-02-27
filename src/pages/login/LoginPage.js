@@ -1,4 +1,4 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Alert, AlertIcon, Box, Button } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
 
@@ -17,7 +17,6 @@ const LoginPage = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (isLoggedIn) {
-      console.log("navigate", isLoggedIn);
       navigate("/home");
     }
   }, [isLoggedIn]);
@@ -39,9 +38,6 @@ const LoginPage = () => {
     }),
 
     onSubmit: function (values) {
-      alert(`Items added
-       email:${values.email}
-      password:${values.password}`);
       dispatch(loginValidate(values));
     },
   });
@@ -59,7 +55,9 @@ const LoginPage = () => {
         />
 
         {formik.errors.email && formik.touched.email ? (
-          <Box ml="15px">{formik.errors.email}</Box>
+          <Box ml="15px" color="red">
+            {formik.errors.email}
+          </Box>
         ) : null}
 
         <hr />
@@ -74,12 +72,14 @@ const LoginPage = () => {
         />
 
         {formik.errors.password && formik.touched.password ? (
-          <div>{formik.errors.password}</div>
+          <Box ml="15px" color="red">
+            {formik.errors.password}
+          </Box>
         ) : null}
 
         <hr />
 
-        <Button type="submit" colorScheme="blue">
+        <Button mt="10px" type="submit" colorScheme="blue">
           Login
         </Button>
       </form>

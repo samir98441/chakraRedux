@@ -2,6 +2,7 @@ import { createAction, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   products: [{}],
+  toggle: false,
 };
 
 export const loadProducts = createAction("loadProducts");
@@ -9,6 +10,7 @@ export const addProducts = createAction("addProducts");
 export const updateProducts = createAction("updateProducts");
 export const updateFormToggle = createAction("updateFormToggle");
 export const removeItem = createAction("removeItem");
+export const toggleAddItem = createAction("toggleAddItem");
 
 export const productsSlice = createSlice({
   name: "products",
@@ -59,6 +61,9 @@ export const productsSlice = createSlice({
         (item) => item.PId !== action.payload
       );
       state.products = newDeletedData;
+    });
+    builder.addCase(toggleAddItem, (state, action) => {
+      state.toggle = !state.toggle;
     });
   },
 });

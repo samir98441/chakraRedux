@@ -8,7 +8,13 @@ const CartItem = ({ PId, PName, Price, quantity }) => {
   const dispatch = useDispatch();
 
   return (
-    <Flex justifyContent="space-around">
+    <Flex
+      justifyContent="space-around"
+      style={{ boxShadow: "5px 5px 10px #8888" }}
+      m="20px"
+      p="20px"
+      w="80%"
+    >
       <Box>
         <Image
           boxSize="100px"

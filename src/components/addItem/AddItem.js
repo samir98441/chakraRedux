@@ -7,9 +7,13 @@ import * as Yup from "yup";
 
 import { useDispatch } from "react-redux";
 import { addProducts } from "../../store/slices/productsSlice";
+import { toggleAddItem } from "../../store/slices/productsSlice";
+import { useState } from "react";
 
 const AddItem = () => {
   const dispatch = useDispatch();
+
+  const [buttonClick, setButtonClick] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -28,9 +32,13 @@ const AddItem = () => {
     }),
 
     onSubmit: function (values) {
-      alert(`Items added
-       Name:${values.PName}
-      Price:${values.Price}`);
+      // alert(`Items added
+      //  Name:${values.PName}
+      // Price:${values.Price}`);
+      console.log("ButtonClickToggle", buttonClick);
+      if (buttonClick === "saveAndExit") {
+        dispatch(toggleAddItem());
+      }
 
       const tempData = { ...values, PId: nanoid() };
       dispatch(addProducts(tempData));
@@ -70,17 +78,19 @@ const AddItem = () => {
 
         <hr />
 
-        {/* <input
-          type="text"
-          name="PImageUrl"
-          value={formik.values.PImageUrl}
-          placeholder="imageurl"
-          onChange={formik.handleChange}
-          onBlur={formik.onBlur}
-        /> */}
-
-        <Button type="submit" colorScheme="blue">
+        <Button
+          type="submit"
+          colorScheme="blue"
+          onClick={(event) => setButtonClick("saveAndExit")}
+        >
           Add Item
+        </Button>
+        <Button
+          type="submit"
+          colorScheme="blue"
+          onClick={(event) => setButtonClick("save")}
+        >
+          Add More
         </Button>
       </form>
     </div>

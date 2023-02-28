@@ -79,6 +79,8 @@ const AddItem = () => {
         <hr />
 
         <Button
+          style={{ display: "inline" }}
+          m="10px 0"
           type="submit"
           colorScheme="blue"
           onClick={(event) => setButtonClick("saveAndExit")}

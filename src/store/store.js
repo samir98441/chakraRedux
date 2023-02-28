@@ -3,6 +3,7 @@ import CartReducer from "./slices/cartSlice";
 import loginSliceReducer from "./slices/loginSlice";
 import ProductsReducer from "./slices/productsSlice";
 import SearchReducer from "./slices/searchSlice";
+import AlertSliceReducer from "./slices/alertSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     CartReducer,
     ProductsReducer,
     SearchReducer,
+    AlertSliceReducer,
   },
 });
 

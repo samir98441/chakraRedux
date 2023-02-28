@@ -1,20 +1,49 @@
-import Item from "../item/Item";
-import { Box, Button, Center, Flex } from "@chakra-ui/react";
-import AddItem from "../addItem/AddItem";
-import "./main.css";
-
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
+
+import { useToast } from "@chakra-ui/react";
+
+import Item from "../item/Item";
+import AddItem from "../addItem/AddItem";
+
 import { toggleAddItem } from "../../store/slices/productsSlice";
+
+import "./main.css";
 
 const Main = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.ProductsReducer.products);
-  const state = useSelector((state) => state.SearchReducer);
-  const { searchValue, searchedItem } = state;
+  const searchReducerState = useSelector((state) => state.SearchReducer);
+  const { searchValue, searchedItem } = searchReducerState;
+
+  const alertReducerState = useSelector((state) => state.AlertSliceReducer);
+
+  const { type, message, key } = alertReducerState;
+
+  const toast = useToast({
+    position: "bottom-right",
+    title: type,
+    containerstyle: {
+      width: "800px",
+    },
+  });
 
   const toggle = useSelector((state) => state.ProductsReducer.toggle);
-
   const handleAddNewItem = () => {
     dispatch(toggleAddItem());
   };
@@ -25,8 +54,45 @@ const Main = () => {
     }
   }, [products]);
 
+  const [isVisibl, setVisible] = useState(false);
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
+  const cancelRef = React.useRef();
+  useEffect(() => {
+    console.log("alert Reducer", alertReducerState);
+    if (type === "success") {
+      toast({
+        title: type,
+        description: message,
+        status: type,
+        duration: 3000,
+        isClosable: false,
+      });
+    }
+  }, [key]);
+
   return (
     <div className="main">
+      <Modal isOpen={toggle}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add New Product</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <AddItem />
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={() => dispatch(toggleAddItem())}
+            >
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Button
         colorScheme="blue"
         w="auto"
@@ -39,11 +105,11 @@ const Main = () => {
       >
         AddNewItem
       </Button>
-      <Box display={toggle ? "block" : "none"} alignItems="center" mt="10px">
+      {/* <Box display={toggle ? "block" : "none"} alignItems="center" mt="10px">
         <Center>
           <AddItem />
         </Center>
-      </Box>
+      </Box> */}
       <Flex
         width="90%"
         display="flex"

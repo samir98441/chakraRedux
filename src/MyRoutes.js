@@ -5,7 +5,6 @@ import { ProtectedRoute } from "./components/protectedRoutes/protectedRoutes";
 import { Spinner } from "@chakra-ui/react";
 import loadable from "@loadable/component";
 
-// const HomePage = loadable(() => import("./pages/home/HomePage"));
 const HomePage = loadable(() => import("./pages/home/HomePage"), {
   resolveComponent: (components) => components.HomePage,
 });
